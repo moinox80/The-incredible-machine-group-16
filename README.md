@@ -18,7 +18,7 @@ A finger to click the buttons with. My condolences to those without fingers.
 Clone this repository with git by doing
 
 ```git
-git clone https://github.com/rigbone1/incredible-machine.git
+git clone https://github.com/RobertGordonUniversity/the-incredible-machine-1920-group-16.git
 ```
 
 Then, install the dependencies by running the following:
