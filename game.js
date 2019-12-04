@@ -2,23 +2,24 @@
 const Five = require('johnny-five');
 const Oled = require('oled-js');
 const Font = require('oled-font-5x7');
+const Wait = require('wait-for-stuff');
 const {EventEmitter} = require('events');
-const play = require('./modules/play.js');
 
 var gameEnd = false;
 
 // Instances
-const board = new Five.Board({port: "COM4"});
+const board = new Five.Board({port: "COM3"});
 const emitter = new EventEmitter();
 
 // Sprites
-const pikachu = require('./sprite/pikachu.js');
+const pikachu = require('./sprites/pikachu.js');
+const sickle = require('./sprites/sickle.js');
 
 // Sounds
 const anthem = require('./sounds/anthem.js');
 
 // Arduino Components
-var screens, buttons, piezo;
+var piezo, screens, buttons;
 
 // Cursors Corresponding to Options
 var currCursor = 0,
@@ -36,16 +37,18 @@ const actions = {
         screens['opponent'].setCursor(16, 28);
         screens['opponent'].writeString(Font, 1, 'Bang, yer deid.', 1, true, 2);
         screens['opponent'].update();
+
+        emitter.emit('game-won');
     },
     // Bag
     bag: () => {
         screens['opponent'].clearDisplay();
         screens['opponent'].setCursor(4, 4);
         screens['opponent'].writeString(Font, 1, 'Bag:', 1, true, 2);
-        
+
         screens['opponent'].setCursor(4, 12);
         screens['opponent'].writeString(Font, 1, 'Nuts, Medkit, Rolls', 1, true, 2);
-        
+
         screens['opponent'].update();
     },
     // Run
@@ -57,7 +60,7 @@ const actions = {
         screens['opponent'].writeString(Font, 1, 'You ran away.', 1, true, 2);
         screens['opponent'].update();
 
-        emitter.emit('game-over');
+        emitter.emit('game-lost');
     }
 }
 
@@ -66,6 +69,8 @@ board.on('ready', () => {
     let is_set_up = false;
 
     try {
+        piezo = new Five.Piezo(5);
+
         buttons = {
             action: new Five.Button({
                 pin: 2,
@@ -85,9 +90,6 @@ board.on('ready', () => {
                 }
             });
         }
-
-        piezo = new Five.Piezo(5);
-
         screens = {
             action: new Five.LCD({
                 pins: [7, 8, 9, 10, 11, 12],
@@ -121,7 +123,7 @@ board.on('ready', () => {
     screens['action'].clear()
         .cursor(0,3).print('Bootlegmon')
         .cursor(1,2).print('Continue >>>');
-    
+
     // Wait for the action button to be pressed,
     // then begin the game.
     emitter.once('action', function(){
@@ -137,6 +139,13 @@ board.on('close', () => {
     screens['action'].clear().home().print('Goodbye');
     screens['opponent'].clearDisplay();
     screens['opponent'].update();
+});
+
+board.on('error', (err) => {
+    if(err.message.includes('COM')){
+        console.log('—————————————————\n Wrong port, bud\n—————————————————');
+    }
+    return console.log('Error:', err.message);
 });
 
 function drawOpponent(sprite){
@@ -164,21 +173,41 @@ function selectOption(){
     actions[currOption]();
 }
 
-function gameOver(){
+function gameWon(){
     for(btn in buttons){
         // Effectively removes event listener. Can't use
         // removeListener, since functions aren't named.
         buttons[btn].on('press', () => {});
     }
 
-    screens['action'].clear().home().print('Game Over.');
-    play(piezo, anthem);
+    Wait.for.time(1);
+
+    drawOpponent(sickle);
+
+    screens['action'].clear()
+        .home().print('Game Over. Well')
+        .cursor(1,0).print('played, comrade.');
+
+    anthem(piezo);
+}
+
+function gameLost(){
+    for(btn in buttons){
+        // Effectively removes event listener. Can't use
+        // removeListener, since functions aren't named.
+        buttons[btn].on('press', () => {});
+    }
+
+    screens['action'].clear()
+        .home().print('Game Over. You')
+        .cursor(1,0).print('are disgrace.');
 }
 
 function startGame(){
     // Prep screens
     screens['opponent'].stopScroll();
 
+    // drawOpponent(pikachu);
     drawOpponent(pikachu);
     drawActions();
 
@@ -186,7 +215,6 @@ function startGame(){
     emitter.on('cycle', cycleOptions);
     emitter.on('action', selectOption);
 
-    emitter.on('game-over', function(){
-        gameOver();
-    });
+    emitter.on('game-won', gameWon);
+    emitter.on('game-lost', gameLost);
 }
