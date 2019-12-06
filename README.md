@@ -11,9 +11,9 @@ A terrible rendition of Pokémon. It's not even worthy of the label 'clone', and
 
 ## Sprite Work
 <p align=center>
-  <img src="/images/screenshot-eevee.png" width="288px">
-  <img src="/images/screenshot-bag.png" width="288px">
-  <img src="/images/screenshot-pikachu.png" width="288px">
+  <img src="/images/screenshot-eevee.png" width="272px">
+  <img src="/images/screenshot-bag.png" width="272px">
+  <img src="/images/screenshot-pikachu.png" width="272px">
 </p>
 
 ## Sketch
