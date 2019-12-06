@@ -18,8 +18,8 @@ A terrible rendition of Pokémon. It's not even worthy of the label 'clone', and
 
 ## Sketch
 <p align=center>
-  <img src="/images/sketch.png" width="256px">
-  <span>Click image for full size.</span>
+  <img src="/images/sketch.png" width="256px"><br>
+  <i>Click image for full size.</i>
 </p>
 
 ## Requirements
