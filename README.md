@@ -9,8 +9,18 @@ A terrible rendition of Pokémon. It's not even worthy of the label 'clone', and
 - A piezo to play the sound effects and victory music.
 - Has nice, hand-drawn sprites.
 
+## Sprite Work
+<p align=center>
+  <img src="/images/screenshot-eevee.png" width="288px">
+  <img src="/images/screenshot-bag.png" width="288px">
+  <img src="/images/screenshot-pikachu.png" width="288px">
+</p>
+
 ## Sketch
-![Wiring diagram for the set up.](/images/sketch.png)
+<p align=center>
+  <img src="/images/sketch.png" width="256px">
+  <span>Click image for full size.</span>
+</p>
 
 ## Requirements
 A finger to click the buttons with. My condolences to those without fingers.
