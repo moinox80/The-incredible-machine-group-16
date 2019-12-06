@@ -7,8 +7,9 @@ A terrible rendition of Pokémon. It's not even worthy of the label 'clone', and
 - A 16x2 LCD screen to display the battle options
 - A monochrome OLED on which the sprites are drawn.
 - A piezo to play the sound effects and victory music.
+- Has nice, hand-drawn sprites.
 
-## Sketch (not accurate)
+## Sketch
 ![Wiring diagram for the set up.](/images/sketch.png)
 
 ## Requirements
