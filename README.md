@@ -19,7 +19,9 @@ A terrible rendition of Pokémon. It's not even worthy of the label 'clone', and
 ## Sketch
 <p align=center>
   <img src="/images/sketch.png" width="256px"><br>
-  <i>Click image for full size.</i>
+  <a href="https://raw.githubusercontent.com/RobertGordonUniversity/the-incredible-machine-1920-group-16/master/images/sketch.png?token=ANNRDGRV6JQ46D52NSFOUR256PNYY">
+    <i>View full-sized image.</i>
+  </a>
 </p>
 
 ## Requirements
